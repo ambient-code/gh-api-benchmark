@@ -1,0 +1,13 @@
+[project]
+name = "gh-benchmark"
+version = "0.1.0"
+description = "GitHub-as-State-Machine Benchmark for ACP"
+requires-python = ">=3.11"
+dependencies = [
+    "httpx>=0.27",
+]
+
+[project.scripts]
+gh-benchmark = "benchmark:main"
+gh-benchmark-setup = "setup_repo:setup"
+gh-benchmark-analyze = "analyze:analyze"

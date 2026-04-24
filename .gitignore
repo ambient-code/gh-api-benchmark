@@ -1,0 +1,20 @@
+# Generated artifacts
+benchmark_results.db
+benchmark_results.db-wal
+benchmark_results.db-shm
+*.csv
+*.txt
+reports/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.uv/
+
+# Node
+node_modules/
+.next/
+
+# OS
+.DS_Store
