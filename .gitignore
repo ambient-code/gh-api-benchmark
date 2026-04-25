@@ -16,5 +16,9 @@ __pycache__/
 node_modules/
 .next/
 
+# Secrets
+.env
+!.env.example
+
 # OS
 .DS_Store

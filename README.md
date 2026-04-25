@@ -109,14 +109,40 @@ Analysis script produces:
 4. **Rate limit burn rate** — projected req/hr extrapolated from the run
 5. **Concurrency knee** — at what parallelism level does latency spike
 
+## Dashboard
+
+A Next.js app for launching runs, monitoring progress, and comparing results.
+
+```bash
+cd dashboard
+npm install
+
+# Required: pass the same GitHub credentials
+GITHUB_TOKEN=ghp_xxx GITHUB_ORG=your-test-org GITHUB_REPO=gh-api-benchmark \
+  npx next dev -p 3001
+```
+
+See `dashboard/.env.example` for required variables. The dashboard reads from
+the same `benchmark_results.db` in the project root.
+
+Features:
+- **Launch** benchmark runs with preset or custom configurations
+- **Live monitoring** — polls every 3s while a run is active
+- **Run detail** — per-step latency charts, percentile distributions, rate limit timeline
+- **Compare** — side-by-side metrics across multiple runs
+
 ## Architecture
 
 ```
 benchmark.py          — orchestrator + instrumented GitHub client
 ├── Phase 1           — sequential baseline (N cycles, 1 at a time)
 ├── Phase 2           — parallel ramp (1→MAX_CONCURRENCY workers)
-└── SQLite writer     — WAL mode, commit-per-step for crash safety
+└── SQLite writer     — WAL mode, commit-per-cycle for crash safety
 
 analyze.py            — reads SQLite, produces stats + CSVs
 setup_repo.py         — one-time test repo initialization
+
+dashboard/            — Next.js app for visualization and run management
+├── src/app/api/      — API routes (runs CRUD, benchmark launcher, compare)
+└── src/app/page.tsx  — single-page app with runs list, detail, and compare views
 ```
